@@ -21,7 +21,7 @@ jobs:
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.2' # نسخه PHP پروژه‌تان
+        php-version: '8.2.0'
         extensions: mbstring, pdo, bcmath
         coverage: none
 
@@ -29,16 +29,30 @@ jobs:
     - name: Install dependencies with Composer
       run: composer install --prefer-dist --no-progress --no-suggest
 
-    # Step 4: Set up application environment
+    # Step 4: Set up Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.10.0' 
+
+    # Step 5: Install npm dependencies
+    - name: Install npm dependencies
+      run: npm install
+
+    # Step 6: Build the project
+    - name: Build the project
+      run: npm run build
+
+    # Step 7: Set up application environment
     - name: Set up environment
       run: |
         cp .env.example .env
         php artisan key:generate
 
-    # Step 5: Run migrations
+    # Step 8: Run migrations
     - name: Run migrations
-      run: php artisan migrate --seed 
+      run: php artisan migrate --seed
 
-    # Step 6: Run tests
+    # Step 9: Run tests
     - name: Run tests
       run: php artisan test
