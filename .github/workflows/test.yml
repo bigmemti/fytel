@@ -33,7 +33,7 @@ jobs:
     - name: Set up environment
       run: |
         cp .env.example .env.testing 
-        php artisan key:generate
+        php artisan key:generate --env=testing
 
     # Step 5: Run migrations
     - name: Run migrations
